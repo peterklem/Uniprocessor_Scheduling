@@ -25,6 +25,7 @@ int main()
         newEntry->arrival = atoi(tempChar);
         tempChar = strtok(NULL, ",");
         newEntry->service = atoi(tempChar);
+<<<<<<< HEAD
         //Set values to negative so a definitive start and finish can be shown
         newEntry->startTime = -1;
         newEntry->finishTime = -1;
@@ -38,6 +39,14 @@ int main()
         newEntry->turnaroundTime = -1;
         processes[i] = newEntry;
         
+=======
+        printf("Process name: %s\nArr time: %d\nSer Time: %d\n\n",
+                newEntry->name,
+                newEntry->arrival,
+                newEntry->service);
+        processes[i] = newEntry;
+
+>>>>>>> 3ac0229323b9c7fda0fcd8e19d2f654010aa5d46
     }
     printResults(processes);
 
