@@ -8,7 +8,7 @@
 
 struct process{
     char name[10];
-    int arrival, service;
+    int arrival, service, startTime, finishTime, waitTime, turnaroundTime;
 };
 
 int main()
