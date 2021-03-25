@@ -18,27 +18,28 @@ int main()
     char* tempChar; // Stores chars from file until placed in array
     FILE* file; // input file
     file = fopen(INPUT_FILE, "r");
-    struct process* processes[NUM_PROCESSES];
+    struct process *processes[NUM_PROCESSES];
+
     
     fgets(str, sizeof(str), file); // Get header line
     
     // Add values into process array
     for(int i = 0; i < NUM_PROCESSES; i++)
     {
-        processes[i] = (struct process*)malloc(sizeof(struct process));
+        struct process *newEntry;
+        newEntry = (struct process*)malloc(sizeof(struct process));
         fgets(str, sizeof(str), file);
         tempChar = strtok(str, ",");
-        processes[i]->name = (char) malloc(sizeof(char)*10);
-        processes[i]->arrival = (int) malloc(sizeof(int));
-        processes[i]->service = (int) malloc(sizeof(int));
+        strcpy(newEntry->name, tempChar);
         tempVal = (int*)strtok(str, ",");
-        processes[i]->arrival = &tempVal;
+        newEntry->arrival = &tempVal;
         tempVal = (int*)strtok(str, ",");
-        processes[i]->service = &tempVal;
-        printf("Process name: %s\n Arr time: %d\n Ser Time: %d\n",
-                processes[i]->name,
-                processes[i]->arrival,
-                processes[i]->service);
+        newEntry->service = &tempVal;
+        printf("Process name: %s\nArr time: %d\nSer Time: %d\n\n",
+                newEntry->name,
+                newEntry->arrival,
+                newEntry->service);
+
     }
 
     return 0;
