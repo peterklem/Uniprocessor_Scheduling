@@ -20,7 +20,6 @@ int main()
     file = fopen(INPUT_FILE, "r");
     struct process *processes[NUM_PROCESSES];
 
-    
     fgets(str, sizeof(str), file); // Get header line
     
     // Add values into process array
@@ -31,10 +30,10 @@ int main()
         fgets(str, sizeof(str), file);
         tempChar = strtok(str, ",");
         strcpy(newEntry->name, tempChar);
-        tempVal = (int*)strtok(str, ",");
-        newEntry->arrival = &tempVal;
-        tempVal = (int*)strtok(str, ",");
-        newEntry->service = &tempVal;
+        tempChar = strtok(NULL, ",");
+        newEntry->arrival = atoi(tempChar);
+        tempChar = strtok(NULL, ",");
+        newEntry->service = atoi(tempChar);
         printf("Process name: %s\nArr time: %d\nSer Time: %d\n\n",
                 newEntry->name,
                 newEntry->arrival,
