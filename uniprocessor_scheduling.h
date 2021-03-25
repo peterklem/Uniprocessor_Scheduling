@@ -16,10 +16,18 @@ void SRT(struct process* processes)
     //    
 }
 
-void printResults(struct process* processes)
+void printResults(struct process** processes)
 {
+    printf("Process\tArrival Time\tService Time\tStart Time\tFinish Time\tWait Time\tTurnaround Time\n");
     for(int i = 0; i < NUM_PROCESSES; i++)
     {
-        
+        printf("%s\t%d\t\t%d\t\t%d\t\t%d\t\t%d\t\t%d\n",
+            processes[i]->name,
+            processes[i]->arrival,
+            processes[i]->service,
+            processes[i]->startTime,
+            processes[i]->finishTime,
+            processes[i]->waitTime,
+            processes[i]->turnaroundTime);
     }
 }
