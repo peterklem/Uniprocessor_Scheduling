@@ -27,6 +27,7 @@ int main()
                 newEntry->name,
                 newEntry->arrival,
                 newEntry->service);
+        processes[i] = newEntry;
 
     }
 
