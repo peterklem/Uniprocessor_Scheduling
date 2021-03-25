@@ -31,3 +31,17 @@ void printResults(struct process** processes)
             processes[i]->turnaroundTime);
     }
 }
+
+void FCFS(struct process** processes){
+  processes[0]->startTime = processes[0]->arrival;
+  processes[0]->finishTime = processes[0]->service;
+  processes[0]->waitTime = 0;
+  processes[0]->turnaroundTime = processes[0]->service;
+
+  for (int i = 1; i < NUM_PROCESSES; i++){
+    processes[i]->startTime = processes[i-1]->finishTime;
+    processes[i]->finishTime = processes[i]->startTime + processes[i]->service;
+    processes[i]->waitTime = processes[i]->startTime - processes[i]->arrival;
+    processes[i]->turnaroundTime = processes[i]->finishTime - processes[i]->arrival;
+  }
+}
