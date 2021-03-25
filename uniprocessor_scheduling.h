@@ -73,3 +73,48 @@ void FCFS(struct process** processes){
     processes[i]->turnaroundTime = processes[i]->finishTime - processes[i]->arrival;
   }
 }
+
+void SPN(struct process** processes){
+  struct process *temp;
+  struct process *temp2;
+  struct process *temp3;
+
+  processes[0]->startTime = processes[0]->arrival;
+  processes[0]->finishTime = processes[0]->service;
+  processes[0]->waitTime = 0;
+  processes[0]->turnaroundTime = processes[0]->service;
+
+
+  for (int i = 1; i < NUM_PROCESSES - 1; i++){
+    temp = processes[i];
+    for (int j = i + 1; j < NUM_PROCESSES; j++){
+      if(temp->service > processes[j]->service){
+        temp3 = temp;
+        temp = processes[j];
+        processes[j] = temp3;
+      }
+    }
+
+    temp2 = temp;
+    temp = processes[i];
+    processes[i] = temp2;
+  }
+
+  for (int i = 1; i < NUM_PROCESSES; i++){
+    temp = processes[i];
+    for (int j = i + 1; j < NUM_PROCESSES; j++){
+      if(temp->arrival > processes[i-1]->finishTime){
+        temp3 = temp;
+        temp = processes[j];
+        processes[j] = temp3;
+      }
+    }
+    temp->startTime = processes[i-1]->finishTime;
+    temp->finishTime = temp->startTime + temp->service;
+    temp->waitTime = temp->startTime - temp->arrival;
+    temp->turnaroundTime = temp->finishTime - temp->arrival;
+    temp2 = temp;
+    temp = processes[i];
+    processes[i] = temp2;
+  }
+}
