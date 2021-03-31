@@ -22,25 +22,51 @@ void SRT(struct process** processes)
     int min = 10;
     int temp; // for comparing to min value
     int iter; // Keep track of running process
+    int processEndFlag = 0; // 1 if a process just ended
 
-    for(int i = 0; i < NUM_PROCESSES; i++)
+    for(int i = 0; i < NUM_PROCESSES; i++) // Iterate through processes
     {
-        if(clk == processes[i]->arrival)
+        if(clk == processes[i]->arrival || processEndFlag == 1) // New process just arrived, time to change order
         {
-            processes[i]->arrived = 1;
+            processEndFlag = 0; // Reset flag
+            processes[i]->arrived = 1; // Flip arrived flag
         }
-        if(processes[i]->arrived == 1 && !processes[i]->finished && i > 0)
+        if(processes[i]->arrived == 1 && !processes[i]->finished) // If process has arrived and not finished
         {
-            temp = processes[i]->service - processes[i]->executionTime;
-            if(min > temp)
+            if(min > processes[i]->service) // Replace min if necessary
             {
-                min = temp;
+                min = processes[i]->service;
                 iter = i;
             }
         }
     }
-    //for(int i = 0; i < NUM_PROCESSES; i++)
-    
+
+    for(int i = 0; i < NUM_PROCESSES; i++) // Iterate through each process
+    {
+        if (i == iter) // If selected to run
+        {
+            processes[i]->running = 1;
+            if(!processes[i]->started) // If process has not started
+            {
+                processes[i]->started = 1;
+                processes[i]->startTime = clk;
+            }
+            processes[i]->service--; // Decrement service time, count as ran
+            if (processes[i]->service <=0) // If processes finished executing
+            {
+                processes[i]->finishTime = clk + 1; // Clk not incremented yet, must add one to compensate
+                processes[i]->finished = 1;
+                processes[i]->running = 0;
+                processEndFlag = 1;
+            }
+            
+        }
+        else // Not selected to run 
+        {
+            processes[i]->running = 0;
+        }
+    }
+    clk++; // Increment clock    
 
 }
 
