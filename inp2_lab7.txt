@@ -1,0 +1,6 @@
+Process,Arrival Time,Service Time
+A,0,8
+B,1,5
+C,2,9
+D,3,2
+E,4,6
