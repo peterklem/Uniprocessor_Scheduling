@@ -14,7 +14,7 @@ struct process{
 };
 
 
-void SRT(struct process** processes)
+char* SRT(struct process** processes)
 // Function: min[service time - time spent in execution] 
 // Checks at arrival to update
 {
@@ -25,6 +25,8 @@ void SRT(struct process** processes)
     int processEndFlag = 0; // 1 if a process just ended
     int endFlag = 0; // 1 if needs to end
     int finishedProcesses = 0; 
+    char* processLog = (char*)malloc(50*sizeof(char));
+
     while(!endFlag)
     //for(int a = 0; a < 25; a++)
     {
@@ -54,15 +56,17 @@ void SRT(struct process** processes)
             if(processes[i]->finished) finishedProcesses++; // Increment 
             
         }
-        if (finishedProcesses == NUM_PROCESSES) 
-            return; // Program is done, safe to exit
 
-        //printf("Running process: %s, arrival time %d, service Time %d.\n", 
-            //processes[iter]->name, processes[iter]->arrival, processes[iter]->service);
+        if (finishedProcesses == NUM_PROCESSES) // Check to see if all processes finished
+        {
+           break;
+        } 
+
         for(int i = 0; i < NUM_PROCESSES; i++) // Iterate through each process
         {
             if (i == iter) // If selected to run
             {
+                processLog[clk] = processes[i]->name[0];
                 processes[i]->running = 1;
                 if(!processes[i]->started) // If process has not started
                 {
@@ -87,12 +91,13 @@ void SRT(struct process** processes)
             {
                 processes[i]->running = 0;
             }
-        }
-        if(endFlag) 
-            return;
+        }  
         clk++; // Increment clock
         min = -1;    
     }
+    strcat(processLog, "$"); // End char
+    return processLog; // Everything executed, exit algorithm
+    
 }
 
 void printResults(struct process** processes)
