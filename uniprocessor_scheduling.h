@@ -47,7 +47,8 @@ void SRT(struct process** processes)
             if(processes[i]->finished) finishedProcesses++; // Increment 
             
         }
-        if (finishedProcesses == NUM_PROCESSES) return NULL; // Program is done, safe to exit
+        if (finishedProcesses == NUM_PROCESSES) 
+            return; // Program is done, safe to exit
 
 
         for(int i = 0; i < NUM_PROCESSES; i++) // Iterate through each process
@@ -78,7 +79,8 @@ void SRT(struct process** processes)
                 processes[i]->running = 0;
             }
         }
-        if(endFlag) return NULL;
+        if(endFlag) 
+            return;
         clk++; // Increment clock    
     }
 }
