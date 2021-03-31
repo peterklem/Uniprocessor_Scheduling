@@ -3,8 +3,8 @@
 #include <string.h>
 
 #define NUM_PROCESSES 5
-#define INPUT_FILE "inp1_lab7.txt"
-#define OUTPUT_FILE "out1_lab7.txt"
+#define INPUT_FILE "inp2_lab7.txt"
+#define OUTPUT_FILE "out2_lab7.txt"
 
 struct process{
     char name[10];
@@ -100,6 +100,101 @@ char* SRT(struct process** processes)
     
 }
 
+void printGanttChartSRT(char* processLog)
+{ // Prints a gantt chart of the SRT operation
+    int numProcessorCycles = 0;
+    for(int i = 0; i < 50; i++) // Find the end of the string
+    {
+        if (processLog[i] == '$')
+        {
+            numProcessorCycles = i;
+        }
+    }
+    //Create arrays for each process, length based on how many processor cycles happened
+    int A[numProcessorCycles];
+    int B[numProcessorCycles];
+    int C[numProcessorCycles];
+    int D[numProcessorCycles];
+    int E[numProcessorCycles];
+
+    for(int i = 0; i < numProcessorCycles; i++) // Instantiate arrays to all zeroes
+    {
+        A[i] = 0;
+        B[i] = 0;
+        C[i] = 0;
+        D[i] = 0;
+        E[i] = 0;
+    }
+
+    for (int i = 0; i < numProcessorCycles; i++) // Switch arrays to 1 if process runs on that CPU cycle
+    {
+        switch(processLog[i])
+        {
+            case 'A':
+                A[i] = 1;
+                break;
+            case 'B':
+                B[i] = 1;
+                break;
+            case 'C':
+                C[i] = 1;
+                break;
+            case 'D':
+                D[i] = 1;
+                break;
+            case 'E':
+                E[i] = 1;
+                break;
+        }
+    }
+
+    // Print statements for each array
+    for(int i = 0; i < numProcessorCycles; i++) // Print A
+    { 
+        if(A[i] == 0)
+            printf("  ");
+        else
+            printf("A ");
+    }
+    printf("\n");
+
+    for(int i = 0; i < numProcessorCycles; i++) // Print B
+    { 
+        if(B[i] == 0)
+            printf("  ");
+        else
+            printf("B ");
+    }
+    printf("\n");
+
+    for(int i = 0; i < numProcessorCycles; i++) // C
+    { 
+        if(C[i] == 0)
+            printf("  ");
+        else
+            printf("C ");
+    }
+    printf("\n");
+
+    for(int i = 0; i < numProcessorCycles; i++) // D
+    { 
+        if(D[i] == 0)
+            printf("  ");
+        else
+            printf("D ");
+    }
+    printf("\n");
+
+    for(int i = 0; i < numProcessorCycles; i++) // E
+    { 
+        if(E[i] == 0)
+            printf("  ");
+        else
+            printf("E ");
+    }
+    printf("\n");
+    
+}
 void printResults(struct process** processes)
 {
     printf("Process\tArrival Time\tService Time\tStart Time\tFinish Time\tWait Time\tTurnaround Time\n");

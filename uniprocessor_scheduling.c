@@ -42,7 +42,7 @@ int main()
     char *output;
     output = SRT(processes); // Holds a char array max length 50 of the process run order, ending char = $
     printResults(processes);
-    
+    printGanttChartSRT(output);
 
 
     return 0;
