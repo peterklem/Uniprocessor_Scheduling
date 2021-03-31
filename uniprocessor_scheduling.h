@@ -117,11 +117,30 @@ void FCFS(struct process** processes){
   processes[0]->waitTime = 0;
   processes[0]->turnaroundTime = processes[0]->service;
 
+  //print gantt chart
+  for (int i = 0; i < processes[0]->service; i++){
+    printf("%s ", processes[0]->name);
+  }
+  printf("\n");
+
   for (int i = 1; i < NUM_PROCESSES; i++){
     processes[i]->startTime = processes[i-1]->finishTime;
     processes[i]->finishTime = processes[i]->startTime + processes[i]->service;
     processes[i]->waitTime = processes[i]->startTime - processes[i]->arrival;
     processes[i]->turnaroundTime = processes[i]->finishTime - processes[i]->arrival;
+  }
+
+  //print gantt chart
+  int count = processes[0]->service;
+  for (int i = 1; i < NUM_PROCESSES; i++){
+    for (int j = 0; j < count; j++){
+      printf("  ");
+    }
+    for(int k = 0; k < processes[i]->service; k++){
+      printf("%s ", processes[i]->name);
+    }
+    printf("\n");
+    count += processes[i]->service;
   }
 }
 
@@ -135,7 +154,18 @@ void SPN(struct process** processes){
   processes[0]->waitTime = 0;
   processes[0]->turnaroundTime = processes[0]->service;
 
+  int totalTime = 0; //Time to finish
+  for (int i = 0; i < NUM_PROCESSES; i++){
+    totalTime = totalTime + processes[i]->service;
+  }
 
+  //print gantt chart
+  for (int i = 0; i < processes[0]->service; i++){
+    printf("%s ", processes[0]->name);
+  }
+  printf("\n");
+
+  //Rearranging in service time
   for (int i = 1; i < NUM_PROCESSES - 1; i++){
     temp = processes[i];
     for (int j = i + 1; j < NUM_PROCESSES; j++){
@@ -151,6 +181,7 @@ void SPN(struct process** processes){
     processes[i] = temp2;
   }
 
+  //Rearranging in Arrival time
   for (int i = 1; i < NUM_PROCESSES; i++){
     temp = processes[i];
     for (int j = i + 1; j < NUM_PROCESSES; j++){
@@ -167,5 +198,20 @@ void SPN(struct process** processes){
     temp2 = temp;
     temp = processes[i];
     processes[i] = temp2;
+  }
+
+
+
+  //print gantt chart
+  int count = processes[0]->service;
+  for (int i = 1; i < NUM_PROCESSES; i++){
+    for (int j = 0; j < count; j++){
+      printf("  ");
+    }
+    for(int k = 0; k < processes[i]->service; k++){
+      printf("%s ", processes[i]->name);
+    }
+    printf("\n");
+    count += processes[i]->service;
   }
 }
