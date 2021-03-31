@@ -19,13 +19,14 @@ void SRT(struct process** processes)
 // Checks at arrival to update
 {
     int clk = 0; // Clock
-    int min = 10;
+    int min = -1;
     int temp; // for comparing to min value
     int iter; // Keep track of running process
     int processEndFlag = 0; // 1 if a process just ended
     int endFlag = 0; // 1 if needs to end
     int finishedProcesses = 0; 
     while(!endFlag)
+    //for(int a = 0; a < 25; a++)
     {
         finishedProcesses = 0; // Reset 
         for(int i = 0; i < NUM_PROCESSES; i++) // Iterate through processes
@@ -35,12 +36,18 @@ void SRT(struct process** processes)
                 processEndFlag = 0; // Reset flag
                 processes[i]->arrived = 1; // Flip arrived flag
             }
-            if(processes[i]->arrived == 1 && !processes[i]->finished && i > 0) // If process has arrived and not finished, and it is not the first process to be checked
+            if(processes[i]->arrived == 1 && !processes[i]->finished) // If process has arrived and not finished, and it is not the first process to be checked
             {
+                if (min == -1) // Valid min value not found yet
+                {
+                    min = processes[i]->service;
+                    iter = i;
+                }
                 if(min > processes[i]->service) // Replace min if necessary
                 {
                     min = processes[i]->service;
                     iter = i;
+                    
                 }
             }
             // Check for number of finished processes
@@ -50,7 +57,8 @@ void SRT(struct process** processes)
         if (finishedProcesses == NUM_PROCESSES) 
             return; // Program is done, safe to exit
 
-
+        //printf("Running process: %s, arrival time %d, service Time %d.\n", 
+            //processes[iter]->name, processes[iter]->arrival, processes[iter]->service);
         for(int i = 0; i < NUM_PROCESSES; i++) // Iterate through each process
         {
             if (i == iter) // If selected to run
@@ -63,6 +71,7 @@ void SRT(struct process** processes)
                     processes[i]->waitTime = processes[i]->startTime - processes[i]->arrival; // Wait time
                 }
                 processes[i]->service--; // Decrement service time, count as ran
+                
                 if (processes[i]->service <=0) // If processes finished executing
                 {
                     // Calc finish time and turnaround time
@@ -81,7 +90,8 @@ void SRT(struct process** processes)
         }
         if(endFlag) 
             return;
-        clk++; // Increment clock    
+        clk++; // Increment clock
+        min = -1;    
     }
 }
 
